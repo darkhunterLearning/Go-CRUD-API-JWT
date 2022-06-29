@@ -1,45 +1,25 @@
 package db
 
 import (
+	"database/sql"
 	"fmt"
-	"log"
 
-	"github.com/darkhunterLearning/Go-CRUD-API-JWT/model"
-	"github.com/jinzhu/gorm"
+	"github.com/darkhunterLearning/Go-CRUD-API-JWT/action"
 	_ "github.com/lib/pq"
 )
 
-func GetDatabase() *gorm.DB {
-	username := "postgres"
-	password := "12345"
-	dbName := "Customer"
-	dbHost := "localhost"
+const (
+	DB_HOST     = "localhost"
+	DB_PORT     = "5432"
+	DB_USER     = "postgres"
+	DB_PASSWORD = "12345"
+	DB_NAME     = "Customer"
+)
 
-	dbUri := fmt.Sprintf("host=%s user=%s dbname=%s sslmode=disable password=%s", dbHost, username, dbName, password) //Build connection string
-	fmt.Println(dbUri)
-	connection, err := gorm.Open("postgres", dbUri)
-	if err != nil {
-		// fmt.Println(err)
-		log.Fatalln("wrong database url")
-	}
+func ConnectDB() *sql.DB {
+	dbinfo := fmt.Sprintf("user=%s password=%s dbname=%s sslmode=disable", DB_USER, DB_PASSWORD, DB_NAME)
+	DB, err := sql.Open("postgres", dbinfo)
+	action.CheckErr(err)
 
-	sqldb := connection.DB()
-
-	err = sqldb.Ping()
-	if err != nil {
-		log.Fatal("database connected")
-	}
-
-	fmt.Println("connected to database")
-	return connection
-}
-func InitialMigration() {
-	connection := GetDatabase()
-	defer CloseDatabase(connection)
-	connection.AutoMigrate(model.Customer{})
-}
-
-func CloseDatabase(connection *gorm.DB) {
-	sqldb := connection.DB()
-	sqldb.Close()
+	return DB
 }

@@ -8,5 +8,4 @@ type Customer struct {
 	Customer_Address  string `json:"customer_address"`
 	Customer_Email    string `json:"customer_email"`
 	Customer_Password string `json:"customer_password"`
-	Customer_Role     string `json:"customer_role"`
 }

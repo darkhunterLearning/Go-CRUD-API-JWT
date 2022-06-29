@@ -1,13 +1,9 @@
 package main
 
 import (
-	"github.com/darkhunterLearning/Go-CRUD-API-JWT/api"
-	"github.com/darkhunterLearning/Go-CRUD-API-JWT/db"
+	"github.com/darkhunterLearning/Go-CRUD-API-JWT/route"
 )
 
 func main() {
-	db.InitialMigration()
-	api.CreateRouter()
-	api.InitializeRoute()
-	api.ServerStart()
+	route.Init_Route()
 }
