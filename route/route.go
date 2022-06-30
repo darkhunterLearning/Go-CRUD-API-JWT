@@ -15,9 +15,9 @@ func Init_Route() {
 
 	router.HandleFunc("/signup/", api.SignUp).Methods("POST")
 	router.HandleFunc("/login/", api.LogIn).Methods("POST")
-	// router.HandleFunc("/customers/", api.GetCustomers).Methods("GET")
 	router.Handle("/customers/", middleware.CheckJwt(http.HandlerFunc(api.GetCustomers))).Methods("GET")
 	router.Handle("/customer/{id}", middleware.CheckJwt(http.HandlerFunc(api.GetCustomer))).Methods("GET")
+	router.Handle("/customer/{id}", middleware.CheckJwt(http.HandlerFunc(api.UpdateCustomer))).Methods("PATCH")
 
 	fmt.Println("Listening to port 8000")
 	log.Fatal(http.ListenAndServe(":8000", router))
