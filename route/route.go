@@ -19,6 +19,7 @@ func Init_Route() {
 	router.Handle("/customer/{id}", middleware.CheckJwt(http.HandlerFunc(api.GetCustomer))).Methods("GET")
 	router.Handle("/customer/{id}", middleware.CheckJwt(http.HandlerFunc(api.UpdateCustomer))).Methods("PATCH")
 	router.Handle("/customers/", middleware.CheckJwt(http.HandlerFunc(api.DeleteCustomers))).Methods("DELETE")
+	router.Handle("/customer/{id}", middleware.CheckJwt(http.HandlerFunc(api.DeleteCustomer))).Methods("DELETE")
 
 	fmt.Println("Listening to port 8000")
 	log.Fatal(http.ListenAndServe(":8000", router))
